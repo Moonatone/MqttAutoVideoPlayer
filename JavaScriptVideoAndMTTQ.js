@@ -2,7 +2,7 @@
 let client
 //connectionDiv peger på et DIV element i HTML siden
 let connectionDiv
-
+//trying to make changes
 //setup er den funktion der kører, før selve web-appen starter
 function setup() {
   noLoop()
