@@ -1,6 +1,9 @@
 body {
   background-color: black;
 }
+main{
+  text-color: white;
+}
 #connection{
     position:absolute;
     bottom:2rem;
