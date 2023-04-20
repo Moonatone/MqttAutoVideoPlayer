@@ -21,7 +21,7 @@ function setup() {
   //subscribe på emnet ...
   client.subscribe('KMGAutoVideoSpiller3T')
 
-  client.publish('KMGAutoVideoSpiller3T', 'Wassup', {qos: 0, retain: false}, function (error){
+  client.publish('KMGAutoVideoSpiller3T', 'new change', {qos: 0, retain: false}, function (error){
     if (error){
       console.log(error)
     } else
