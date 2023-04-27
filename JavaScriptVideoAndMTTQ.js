@@ -1,45 +1,66 @@
-//client er den variabel der bruges til at oprette forbindelse til mqtt serveren
-let client
-//connectionDiv peger på et DIV element i HTML siden
-let connectionDiv
-//trying to make changes
-//setup er den funktion der kører, før selve web-appen starter
-function setup() {
-  noLoop()
-  //tag fat i en div i HTML dokumentet - med id "connection"
-  connectionDiv = select('#connection')
+const url = 'wss://mqtt.nextservices.dk'
 
-  //forsøg at oprette forbindelse til MQTT serveren
-  client = mqtt.connect('wss://mqtt.nextservices.dk') // mqtt variablen kommer fra mqtt.min.js biblioteket //wss er en Websocket protocol.
+let isClicked = new Boolean()
 
-  //hvis forbindelsen lykkes kaldes denne funktion
-  client.on('connect', (m) => {
-    console.log('Client connected: ', m)
-    connectionDiv.html('You are now connected to mqtt.nextservices.dk')
-  })
+const myButton = document.getElementById('myButton');
 
-  //subscribe på emnet ...
-  client.subscribe('KMGAutoVideoSpiller3T')
+const myDiv = document.getElementById('connection')
 
-  client.publish('KMGAutoVideoSpiller3T', 'new change', {qos: 0, retain: false}, function (error){
-    if (error){
-      console.log(error)
-    } else
-    {
-      console.log('published')
+const options = {
+  clean: true
+}
+
+const client = mqtt.connect(url, options)
+client.on('connect', function() {
+  console.log('connected');
+
+  client.subscribe('KMGAutoVideoSpiller3T', function(err){
+    if(!err){
+      client.publish('KMGAutoVideoSpiller3T', 'this is a new message')
     }
   })
-  //når vi modtager beskeder fra MQTT serveren kaldes denne funktion
-  client.on('message', (topic, message) => {
-    console.log('Received Message: ' + message.toString())
-    console.log('On Topic: ' + topic)
+})
 
+client.on('message', function(topic, message){
+  console.log(message.toString());
+  myDiv.innerHTML = 'Received message: <b>' + message + '</b> on topic: <b>' + topic + '</b>'
+})
 
+myButton.addEventListener("click", function() {
+  if(isClicked != true){
+    isClicked = true
+  } else{
+    isClicked = false
+  }
+  myFunction();
+  console.log("Rubber Duck");
+});
 
-    //Sæt beskeden ind på hjemmesiden
-    connectionDiv.html('Received message: <b>' + message + '</b> on topic: <b>' + topic + '</b>')
-  })
+function myFunction(){
+  if(isClicked == true){
+  client.publish('KMGAutoVideoSpiller3T', 'try out', {qos: 0, retain: false});
+  console.log("Rubber Duck2");
+  } else {
+    client.publish('KMGAutoVideoSpiller3T', 'it works')
+  }
 }
-function loop(){
 
-}
+
+client.on('message', function(topic, message){
+  if(message == 'it works' && topic == 'KMGAutoVideoSpiller3T'){
+    console.log("Rubber Duck");
+
+    var videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.pause();
+    document.body.style.backgroundColor = "red";
+  } 
+  if(message == 'try out'&& topic == 'KMGAutoVideoSpiller3T'){
+    document.body.style.backgroundColor = "pink";
+    var videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.currentTime = 0;
+    videoPlayer.play();
+    console.log("Rubber Duck");
+  }
+})
+
+
