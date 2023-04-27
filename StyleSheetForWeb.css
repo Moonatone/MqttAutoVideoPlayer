@@ -1,13 +1,16 @@
 body {
   background-color: black;
 }
-main{
-  text-color: white;
+
+#myButton{
+  margin: 250px 900px;
 }
+
 #connection{
     position:absolute;
     bottom:2rem;
     left:2rem;
+    color:white;
 }
 
 #defaultCanvas0{
