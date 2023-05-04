@@ -6,7 +6,6 @@ let isClicked = new Boolean()
 const myButton = document.getElementById('myButton');
 
 const myDiv = document.getElementById('connection')
-videoPlayer.autoplay = true;
 
 
 const options = {
