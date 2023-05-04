@@ -52,10 +52,8 @@ client.on('message', function(topic, message){
 
     var videoPlayer = document.getElementById('videoPlayer');
     videoPlayer.pause();
-    document.body.style.backgroundColor = "red";
   } 
   if(message == 'try out'&& topic == 'KMGAutoVideoSpiller3T'){
-    document.body.style.backgroundColor = "pink";
     var videoPlayer = document.getElementById('videoPlayer');
     videoPlayer.currentTime = 0;
     videoPlayer.play();
