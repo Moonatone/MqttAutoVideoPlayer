@@ -1,10 +1,13 @@
 const url = 'wss://mqtt.nextservices.dk'
+const videoPlayer = document.getElementById('videoPlayer');
 
 let isClicked = new Boolean()
 
 const myButton = document.getElementById('myButton');
 
 const myDiv = document.getElementById('connection')
+videoPlayer.autoplay = true;
+
 
 const options = {
   clean: true
@@ -22,8 +25,20 @@ client.on('connect', function() {
 })
 
 client.on('message', function(topic, message){
+  if(message == 'it works' && topic == 'KMGAutoVideoSpiller3T'){
+    console.log("Rubber Duck");
+    videoPlayer.pause();
+  } 
+  if(message == 'try out'&& topic == 'KMGAutoVideoSpiller3T'){
+    videoPlayer.currentTime = 0;
+    videoPlayer.play();
+    console.log("Rubber Duck");
+  }
+})
+
+client.on('message', function(topic, message){
   console.log(message.toString());
-  myDiv.innerHTML = 'Received message: <b>' + message + '</b> on topic: <b>' + topic + '</b>'
+  //myDiv.innerHTML = 'Received message: <b>' + message + '</b> on topic: <b>' + topic + '</b>'
 })
 
 myButton.addEventListener("click", function() {
@@ -46,19 +61,6 @@ function myFunction(){
 }
 
 
-client.on('message', function(topic, message){
-  if(message == 'it works' && topic == 'KMGAutoVideoSpiller3T'){
-    console.log("Rubber Duck");
 
-    var videoPlayer = document.getElementById('videoPlayer');
-    videoPlayer.pause();
-  } 
-  if(message == 'try out'&& topic == 'KMGAutoVideoSpiller3T'){
-    var videoPlayer = document.getElementById('videoPlayer');
-    videoPlayer.currentTime = 0;
-    videoPlayer.play();
-    console.log("Rubber Duck");
-  }
-})
 
 
