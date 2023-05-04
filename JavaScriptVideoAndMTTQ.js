@@ -27,6 +27,7 @@ client.on('message', function(topic, message){
   if(message == 'it works' && topic == 'KMGAutoVideoSpiller3T'){
     console.log("Rubber Duck");
     videoPlayer.pause();
+    videoPlayer.currentTime = 0;
   } 
   if(message == 'try out'&& topic == 'KMGAutoVideoSpiller3T'){
     videoPlayer.currentTime = 0;
